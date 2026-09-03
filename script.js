@@ -93,19 +93,36 @@
   let activeReview = 0;
   let autoplayTimer = null;
 
+  function setActiveCard(index) {
+    activeReview = index;
+    cards.forEach((card, i) => card.classList.toggle("active", i === index));
+    dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
+  }
+
+  // Navigating via button/dot/autoplay applies the new state immediately and
+  // suppresses the live scroll-driven detector below for the duration of the
+  // smooth-scroll animation. Without this, a 'scroll' event fired in the
+  // animation's first frame (when the position has barely moved) would read
+  // the *previous* card as still closest and stomp activeReview right back —
+  // so the next autoplay tick kept re-requesting the same card it had just
+  // left, instead of ever reaching the one after it.
+  let suppressSyncUntil = 0;
   function scrollToReview(index) {
-    activeReview = (index + cards.length) % cards.length;
-    cards[activeReview].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    const target = (index + cards.length) % cards.length;
+    setActiveCard(target);
+    suppressSyncUntil = Date.now() + 600;
+    cards[target].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   }
 
   // Keep the active/dot state in sync with whichever single card sits closest
-  // to the viewport's centre — including when the user drags or swipes the
-  // track directly. (An intersection-ratio threshold isn't enough here: on a
-  // wide screen the carousel spans the full viewport, so more than one card
-  // can be >60% visible at once and several would end up "active" together.)
+  // to the viewport's centre when the user drags or swipes the track
+  // directly. (An intersection-ratio threshold isn't enough here: on a wide
+  // screen the carousel spans the full viewport, so more than one card can be
+  // >60% visible at once and several would end up "active" together.)
   let rafId = null;
   function updateActiveCard() {
     rafId = null;
+    if (Date.now() < suppressSyncUntil) return;
     const viewportCenter = viewport.getBoundingClientRect().left + viewport.clientWidth / 2;
     let closest = 0;
     let closestDistance = Infinity;
@@ -114,9 +131,7 @@
       const distance = Math.abs(rect.left + rect.width / 2 - viewportCenter);
       if (distance < closestDistance) { closestDistance = distance; closest = index; }
     });
-    activeReview = closest;
-    cards.forEach((card, index) => card.classList.toggle("active", index === closest));
-    dots.forEach((dot, index) => dot.classList.toggle("active", index === closest));
+    setActiveCard(closest);
   }
   function scheduleActiveCardUpdate() {
     if (rafId === null) rafId = requestAnimationFrame(updateActiveCard);

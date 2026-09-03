@@ -73,7 +73,7 @@ img { display: block; max-width: 100%; }
 .hero-note strong { margin-top: 2px; font-size: 13px; }
 .hero-stripe { position: absolute; z-index: 3; right: -120px; top: 74px; width: 480px; height: 34px; display: flex; align-items: center; justify-content: center; overflow: hidden; transform: rotate(35deg); background: var(--yellow); color: var(--navy); font-size: 11px; font-weight: 900; letter-spacing: .12em; white-space: nowrap; }
 
-.quote-section { padding: 32px 0 112px; background: var(--cloud); }
+.quote-section { padding: 32px 0 0; background: var(--cloud); }
 .conversion-stack { max-width: 920px; }
 .quote-card, .quote-success { position: relative; width: 100%; min-height: 345px; padding: 38px 42px 28px; background: white; color: var(--ink); box-shadow: var(--shadow); border-top: 6px solid var(--yellow); }
 .quote-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
@@ -117,7 +117,7 @@ img { display: block; max-width: 100%; }
 
 /* Full-bleed: break out of the 920px conversion-stack so the carousel spans the
    whole viewport, giving the peeking side cards real room to show. */
-.review-carousel { width: 100vw; margin-top: 22px; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); padding: 26px 0 20px; overflow: hidden; background: var(--navy); color: white; box-shadow: 0 20px 50px rgba(5,21,42,.16); }
+.review-carousel { width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); padding: 26px 0 20px; overflow: hidden; background: var(--navy); color: white; box-shadow: 0 20px 50px rgba(5,21,42,.16); }
 .review-carousel-head { max-width: 920px; margin: 0 auto; padding: 0 31px 19px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid rgba(255,255,255,.14); }
 .google-review-brand { display: flex; align-items: center; gap: 13px; }
 .google-logo { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; background: white; color: #4285f4; font-size: 22px; font-weight: 900; }
@@ -319,7 +319,7 @@ img { display: block; max-width: 100%; }
   .hero-actions .primary-button, .hero-actions .secondary-button { width: 100%; }
   .hero-trust { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 22px; }
   .hero-trust span:last-child { grid-column: 1 / -1; }
-  .quote-section { padding: 11px 0 76px; }
+  .quote-section { padding: 11px 0 0; }
   .quote-card, .quote-success { padding: 25px 20px 19px; }
   .quote-card-head { align-items: center; }
   .quote-card h2, .quote-success h2 { font-size: 22px; }
@@ -337,7 +337,7 @@ img { display: block; max-width: 100%; }
   .stat strong { font-size: clamp(36px, 10.5vw, 46px); white-space: nowrap; }
   .stat span { max-width: none; margin-top: 10px; color: #dbe6f0; font-size: 8px; line-height: 1.4; text-align: center; letter-spacing: .08em; }
   .demo-disclaimer { margin-top: 8px; text-align: center; }
-  .review-carousel { margin-top: 16px; padding: 22px 0 17px; }
+  .review-carousel { margin-top: 0; padding: 22px 0 17px; }
   .review-carousel-head { align-items: flex-start; padding: 0 20px 17px; }
   .google-logo { width: 37px; height: 37px; font-size: 19px; }
   .google-review-brand { gap: 10px; }
