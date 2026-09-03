@@ -98,19 +98,32 @@
     cards[activeReview].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   }
 
-  // Keep the active/dot state in sync with whichever card is centred,
-  // including when the user drags or swipes the track directly.
-  const centerObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const index = cards.indexOf(entry.target);
-      entry.target.classList.toggle("active", entry.isIntersecting);
-      if (entry.isIntersecting) {
-        activeReview = index;
-        dots.forEach((dot, dotIndex) => dot.classList.toggle("active", dotIndex === index));
-      }
+  // Keep the active/dot state in sync with whichever single card sits closest
+  // to the viewport's centre — including when the user drags or swipes the
+  // track directly. (An intersection-ratio threshold isn't enough here: on a
+  // wide screen the carousel spans the full viewport, so more than one card
+  // can be >60% visible at once and several would end up "active" together.)
+  let rafId = null;
+  function updateActiveCard() {
+    rafId = null;
+    const viewportCenter = viewport.getBoundingClientRect().left + viewport.clientWidth / 2;
+    let closest = 0;
+    let closestDistance = Infinity;
+    cards.forEach((card, index) => {
+      const rect = card.getBoundingClientRect();
+      const distance = Math.abs(rect.left + rect.width / 2 - viewportCenter);
+      if (distance < closestDistance) { closestDistance = distance; closest = index; }
     });
-  }, { root: viewport, threshold: 0.6 });
-  cards.forEach((card) => centerObserver.observe(card));
+    activeReview = closest;
+    cards.forEach((card, index) => card.classList.toggle("active", index === closest));
+    dots.forEach((dot, index) => dot.classList.toggle("active", index === closest));
+  }
+  function scheduleActiveCardUpdate() {
+    if (rafId === null) rafId = requestAnimationFrame(updateActiveCard);
+  }
+  viewport.addEventListener("scroll", scheduleActiveCardUpdate, { passive: true });
+  window.addEventListener("resize", scheduleActiveCardUpdate);
+  updateActiveCard();
 
   function startAutoplay() {
     stopAutoplay();
