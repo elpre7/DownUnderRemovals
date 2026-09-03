@@ -131,11 +131,12 @@ img { display: block; max-width: 100%; }
 .carousel-controls button { width: 39px; height: 39px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.28); background: transparent; color: white; cursor: pointer; transition: background .2s ease, color .2s ease; }
 .carousel-controls button:hover { background: var(--yellow); color: var(--navy); }
 
-/* Reviews scroll as their own cards, with neighbours peeking at both edges */
-.review-viewport { overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; -ms-overflow-style: none; }
-.review-viewport::-webkit-scrollbar { display: none; }
-.review-track { display: flex; gap: 18px; padding: 22px calc((100% - min(600px, 82%)) / 2) 18px; }
-.review-card { flex: 0 0 min(600px, 82%); scroll-snap-align: center; background: var(--navy-2); border: 1px solid rgba(255,255,255,.09); box-shadow: 0 16px 34px rgba(0,0,0,.22); padding: 26px 28px 24px; opacity: .4; transform: scale(.93); transition: opacity .35s ease, transform .35s ease; }
+/* Reviews are their own cards, with neighbours peeking at both edges. The
+   track's position is a CSS transform driven entirely by script.js (one
+   activeIndex, no native scrolling), so this is just layout + animation. */
+.review-viewport { overflow: hidden; }
+.review-track { position: relative; display: flex; gap: 18px; padding: 22px 0 18px; transition: transform .5s cubic-bezier(.22,.75,.18,1); }
+.review-card { flex: 0 0 min(600px, 82%); background: var(--navy-2); border: 1px solid rgba(255,255,255,.09); box-shadow: 0 16px 34px rgba(0,0,0,.22); padding: 26px 28px 24px; opacity: .4; transform: scale(.93); transition: opacity .35s ease, transform .35s ease; }
 .review-card.active { opacity: 1; transform: scale(1); }
 .review-card-stars { display: flex; gap: 3px; color: #f2b900; margin-bottom: 15px; }
 .review-card-stars .icon { width: 15px; height: 15px; }
@@ -346,7 +347,7 @@ img { display: block; max-width: 100%; }
   .google-review-brand span { font-size: 9px; }
   .carousel-controls { gap: 5px; }
   .carousel-controls button { width: 34px; height: 34px; }
-  .review-track { padding: 18px calc((100% - min(420px, 88%)) / 2) 16px; gap: 12px; }
+  .review-track { padding: 18px 0 16px; gap: 12px; }
   .review-card { flex-basis: min(420px, 88%); padding: 22px 20px 18px; }
   .review-card blockquote { min-height: 105px; font-size: 19px; }
   .carousel-footer { padding: 0 20px; }

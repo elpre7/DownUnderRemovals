@@ -84,83 +84,64 @@
   document.getElementById("sendAnother").addEventListener("click", resetForm);
 
   // --- Google review carousel ---
-  // Native horizontal scroll + snap: neighbouring cards peek at both edges,
-  // dragging/swiping just works, and autoplay/buttons scroll to a target card.
+  // One index drives everything: the active card, the dots, and the track's
+  // position — set directly as a CSS transform computed from each card's
+  // static offsetLeft/offsetWidth. No native scrolling and no "which card is
+  // closest" geometry guessing: those could disagree with each other (stuck
+  // re-requesting the same card, the page jumping to drag an off-screen
+  // carousel into view, a card lighting up without the track visibly
+  // moving). A transform driven by one variable can't desync from itself.
   const viewport = document.getElementById("reviewViewport");
+  const track = document.getElementById("reviewTrack");
   const cards = Array.from(document.querySelectorAll(".review-card"));
   const dots = document.querySelectorAll("#reviewDots button");
   const carousel = document.getElementById("reviews");
   // Start on the 2nd card rather than the 1st: the 1st has no card before it
   // to peek, so centering it leaves an empty gap on the left instead of a
   // symmetric peek on both sides.
-  let activeReview = 1;
+  let activeIndex = 1;
   let autoplayTimer = null;
 
-  function setActiveCard(index) {
-    activeReview = index;
-    cards.forEach((card, i) => card.classList.toggle("active", i === index));
-    dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
+  function render() {
+    const card = cards[activeIndex];
+    const offset = card.offsetLeft + card.offsetWidth / 2 - viewport.clientWidth / 2;
+    track.style.transform = `translateX(${-offset}px)`;
+    cards.forEach((c, i) => c.classList.toggle("active", i === activeIndex));
+    dots.forEach((d, i) => d.classList.toggle("active", i === activeIndex));
   }
 
-  // Navigating via button/dot/autoplay applies the new state immediately and
-  // suppresses the live scroll-driven detector below for the duration of the
-  // smooth-scroll animation. Without this, a 'scroll' event fired in the
-  // animation's first frame (when the position has barely moved) would read
-  // the *previous* card as still closest and stomp activeReview right back —
-  // so the next autoplay tick kept re-requesting the same card it had just
-  // left, instead of ever reaching the one after it.
-  let suppressSyncUntil = 0;
-  function scrollToReview(index, instant) {
-    const target = (index + cards.length) % cards.length;
-    setActiveCard(target);
-    suppressSyncUntil = Date.now() + 600;
-    // Scroll only the carousel's own horizontal track — never
-    // card.scrollIntoView(), which also drags the whole *page* down to
-    // bring the card into vertical view (e.g. mid-autoplay while someone
-    // is filling in the quote form higher up the page).
-    const cardRect = cards[target].getBoundingClientRect();
-    const viewportRect = viewport.getBoundingClientRect();
-    const delta = (cardRect.left + cardRect.width / 2) - (viewportRect.left + viewportRect.width / 2);
-    viewport.scrollTo({ left: viewport.scrollLeft + delta, behavior: instant ? "auto" : "smooth" });
+  function goTo(index) {
+    activeIndex = (index + cards.length) % cards.length;
+    render();
   }
 
-  // Keep the active/dot state in sync with whichever single card sits closest
-  // to the viewport's centre when the user drags or swipes the track
-  // directly. (An intersection-ratio threshold isn't enough here: on a wide
-  // screen the carousel spans the full viewport, so more than one card can be
-  // >60% visible at once and several would end up "active" together.)
-  let rafId = null;
-  function updateActiveCard() {
-    rafId = null;
-    if (Date.now() < suppressSyncUntil) return;
-    const viewportCenter = viewport.getBoundingClientRect().left + viewport.clientWidth / 2;
-    let closest = 0;
-    let closestDistance = Infinity;
-    cards.forEach((card, index) => {
-      const rect = card.getBoundingClientRect();
-      const distance = Math.abs(rect.left + rect.width / 2 - viewportCenter);
-      if (distance < closestDistance) { closestDistance = distance; closest = index; }
-    });
-    setActiveCard(closest);
-  }
-  function scheduleActiveCardUpdate() {
-    if (rafId === null) rafId = requestAnimationFrame(updateActiveCard);
-  }
-  viewport.addEventListener("scroll", scheduleActiveCardUpdate, { passive: true });
-  window.addEventListener("resize", scheduleActiveCardUpdate);
-  scrollToReview(activeReview, true);
+  document.getElementById("reviewPrev").addEventListener("click", () => goTo(activeIndex - 1));
+  document.getElementById("reviewNext").addEventListener("click", () => goTo(activeIndex + 1));
+  dots.forEach((dot, index) => dot.addEventListener("click", () => goTo(index)));
+  window.addEventListener("resize", render);
+
+  let touchStartX = 0;
+  let touchDeltaX = 0;
+  viewport.addEventListener("touchstart", (event) => {
+    touchStartX = event.touches[0].clientX;
+    touchDeltaX = 0;
+    stopAutoplay();
+  }, { passive: true });
+  viewport.addEventListener("touchmove", (event) => {
+    touchDeltaX = event.touches[0].clientX - touchStartX;
+  }, { passive: true });
+  viewport.addEventListener("touchend", () => {
+    if (Math.abs(touchDeltaX) > 40) goTo(activeIndex + (touchDeltaX < 0 ? 1 : -1));
+    resumeAutoplayIfVisible();
+  });
 
   function startAutoplay() {
     stopAutoplay();
-    autoplayTimer = window.setInterval(() => scrollToReview(activeReview + 1), 4200);
+    autoplayTimer = window.setInterval(() => goTo(activeIndex + 1), 4200);
   }
   function stopAutoplay() {
     if (autoplayTimer) window.clearInterval(autoplayTimer);
   }
-
-  document.getElementById("reviewPrev").addEventListener("click", () => scrollToReview(activeReview - 1));
-  document.getElementById("reviewNext").addEventListener("click", () => scrollToReview(activeReview + 1));
-  dots.forEach((dot, index) => dot.addEventListener("click", () => scrollToReview(index)));
 
   // Only autoplay while the carousel is actually on screen — not from page
   // load, and not while it's scrolled out of view. mouseleave/focusout/
@@ -174,8 +155,6 @@
   carousel.addEventListener("mouseleave", resumeAutoplayIfVisible);
   carousel.addEventListener("focusin", stopAutoplay);
   carousel.addEventListener("focusout", resumeAutoplayIfVisible);
-  viewport.addEventListener("touchstart", stopAutoplay, { passive: true });
-  viewport.addEventListener("touchend", resumeAutoplayIfVisible);
 
   new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -184,4 +163,6 @@
       else stopAutoplay();
     });
   }, { threshold: 0.35 }).observe(carousel);
+
+  render();
 })();
