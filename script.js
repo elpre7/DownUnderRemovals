@@ -111,7 +111,14 @@
     const target = (index + cards.length) % cards.length;
     setActiveCard(target);
     suppressSyncUntil = Date.now() + 600;
-    cards[target].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    // Scroll only the carousel's own horizontal track — never
+    // card.scrollIntoView(), which also drags the whole *page* down to
+    // bring the card into vertical view (e.g. mid-autoplay while someone
+    // is filling in the quote form higher up the page).
+    const cardRect = cards[target].getBoundingClientRect();
+    const viewportRect = viewport.getBoundingClientRect();
+    const delta = (cardRect.left + cardRect.width / 2) - (viewportRect.left + viewportRect.width / 2);
+    viewport.scrollTo({ left: viewport.scrollLeft + delta, behavior: "smooth" });
   }
 
   // Keep the active/dot state in sync with whichever single card sits closest
