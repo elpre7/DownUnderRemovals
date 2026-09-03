@@ -90,7 +90,10 @@
   const cards = Array.from(document.querySelectorAll(".review-card"));
   const dots = document.querySelectorAll("#reviewDots button");
   const carousel = document.getElementById("reviews");
-  let activeReview = 0;
+  // Start on the 2nd card rather than the 1st: the 1st has no card before it
+  // to peek, so centering it leaves an empty gap on the left instead of a
+  // symmetric peek on both sides.
+  let activeReview = 1;
   let autoplayTimer = null;
 
   function setActiveCard(index) {
@@ -107,7 +110,7 @@
   // so the next autoplay tick kept re-requesting the same card it had just
   // left, instead of ever reaching the one after it.
   let suppressSyncUntil = 0;
-  function scrollToReview(index) {
+  function scrollToReview(index, instant) {
     const target = (index + cards.length) % cards.length;
     setActiveCard(target);
     suppressSyncUntil = Date.now() + 600;
@@ -118,7 +121,7 @@
     const cardRect = cards[target].getBoundingClientRect();
     const viewportRect = viewport.getBoundingClientRect();
     const delta = (cardRect.left + cardRect.width / 2) - (viewportRect.left + viewportRect.width / 2);
-    viewport.scrollTo({ left: viewport.scrollLeft + delta, behavior: "smooth" });
+    viewport.scrollTo({ left: viewport.scrollLeft + delta, behavior: instant ? "auto" : "smooth" });
   }
 
   // Keep the active/dot state in sync with whichever single card sits closest
@@ -145,7 +148,7 @@
   }
   viewport.addEventListener("scroll", scheduleActiveCardUpdate, { passive: true });
   window.addEventListener("resize", scheduleActiveCardUpdate);
-  updateActiveCard();
+  scrollToReview(activeReview, true);
 
   function startAutoplay() {
     stopAutoplay();
