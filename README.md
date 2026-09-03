@@ -33,3 +33,4 @@ No build step required — GitHub Pages serves the static files as-is.
 - The quote form is a front-end preview only; wire the `submit` handler in `script.js` up to an email service or CRM before launch.
 - Stats in the stats bar and the review carousel are placeholder content — replace with real numbers and real Google reviews before publishing.
 - The hero and "why us" photos load from Unsplash and the map from Google Maps embed; both need normal internet access to render (they won't load in network-restricted sandboxes).
+- `styles.css` and `script.js` are linked with a `?v=N` query string. Browsers (and GitHub Pages' CDN) cache plain filenames aggressively, so after editing either file bump `N` in `index.html` — otherwise visitors can see new markup paired with a stale cached stylesheet/script.
