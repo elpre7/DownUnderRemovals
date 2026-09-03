@@ -159,12 +159,26 @@
   document.getElementById("reviewNext").addEventListener("click", () => scrollToReview(activeReview + 1));
   dots.forEach((dot, index) => dot.addEventListener("click", () => scrollToReview(index)));
 
+  // Only autoplay while the carousel is actually on screen — not from page
+  // load, and not while it's scrolled out of view. mouseleave/focusout/
+  // touchend only resume it if it's still visible, so pausing to hover right
+  // as the carousel scrolls off screen can't leave it running invisibly.
+  let carouselVisible = false;
+  function resumeAutoplayIfVisible() {
+    if (carouselVisible) startAutoplay();
+  }
   carousel.addEventListener("mouseenter", stopAutoplay);
-  carousel.addEventListener("mouseleave", startAutoplay);
+  carousel.addEventListener("mouseleave", resumeAutoplayIfVisible);
   carousel.addEventListener("focusin", stopAutoplay);
-  carousel.addEventListener("focusout", startAutoplay);
+  carousel.addEventListener("focusout", resumeAutoplayIfVisible);
   viewport.addEventListener("touchstart", stopAutoplay, { passive: true });
-  viewport.addEventListener("touchend", startAutoplay);
+  viewport.addEventListener("touchend", resumeAutoplayIfVisible);
 
-  startAutoplay();
+  new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      carouselVisible = entry.isIntersecting;
+      if (carouselVisible) startAutoplay();
+      else stopAutoplay();
+    });
+  }, { threshold: 0.35 }).observe(carousel);
 })();
