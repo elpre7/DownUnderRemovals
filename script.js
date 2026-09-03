@@ -84,50 +84,52 @@
   document.getElementById("sendAnother").addEventListener("click", resetForm);
 
   // --- Google review carousel ---
-  const track = document.getElementById("reviewTrack");
-  const slides = track.querySelectorAll(".review-slide");
+  // Native horizontal scroll + snap: neighbouring cards peek at both edges,
+  // dragging/swiping just works, and autoplay/buttons scroll to a target card.
+  const viewport = document.getElementById("reviewViewport");
+  const cards = Array.from(document.querySelectorAll(".review-card"));
   const dots = document.querySelectorAll("#reviewDots button");
   const carousel = document.getElementById("reviews");
   let activeReview = 0;
   let autoplayTimer = null;
 
-  function renderReview() {
-    track.style.transform = `translateX(-${activeReview * 100}%)`;
-    dots.forEach((dot, index) => dot.classList.toggle("active", index === activeReview));
+  function scrollToReview(index) {
+    activeReview = (index + cards.length) % cards.length;
+    cards[activeReview].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
   }
 
-  function moveReview(direction) {
-    activeReview = (activeReview + direction + slides.length) % slides.length;
-    renderReview();
-  }
+  // Keep the active/dot state in sync with whichever card is centred,
+  // including when the user drags or swipes the track directly.
+  const centerObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const index = cards.indexOf(entry.target);
+      entry.target.classList.toggle("active", entry.isIntersecting);
+      if (entry.isIntersecting) {
+        activeReview = index;
+        dots.forEach((dot, dotIndex) => dot.classList.toggle("active", dotIndex === index));
+      }
+    });
+  }, { root: viewport, threshold: 0.6 });
+  cards.forEach((card) => centerObserver.observe(card));
 
   function startAutoplay() {
     stopAutoplay();
-    autoplayTimer = window.setInterval(() => moveReview(1), 5200);
+    autoplayTimer = window.setInterval(() => scrollToReview(activeReview + 1), 4200);
   }
   function stopAutoplay() {
     if (autoplayTimer) window.clearInterval(autoplayTimer);
   }
 
-  document.getElementById("reviewPrev").addEventListener("click", () => moveReview(-1));
-  document.getElementById("reviewNext").addEventListener("click", () => moveReview(1));
-  dots.forEach((dot, index) => dot.addEventListener("click", () => { activeReview = index; renderReview(); }));
+  document.getElementById("reviewPrev").addEventListener("click", () => scrollToReview(activeReview - 1));
+  document.getElementById("reviewNext").addEventListener("click", () => scrollToReview(activeReview + 1));
+  dots.forEach((dot, index) => dot.addEventListener("click", () => scrollToReview(index)));
 
   carousel.addEventListener("mouseenter", stopAutoplay);
   carousel.addEventListener("mouseleave", startAutoplay);
   carousel.addEventListener("focusin", stopAutoplay);
   carousel.addEventListener("focusout", startAutoplay);
-
-  let touchStartX = 0;
-  carousel.addEventListener("touchstart", (event) => {
-    touchStartX = event.touches[0].clientX;
-    stopAutoplay();
-  }, { passive: true });
-  carousel.addEventListener("touchend", (event) => {
-    const distance = touchStartX - event.changedTouches[0].clientX;
-    if (Math.abs(distance) > 35) moveReview(distance > 0 ? 1 : -1);
-    startAutoplay();
-  });
+  viewport.addEventListener("touchstart", stopAutoplay, { passive: true });
+  viewport.addEventListener("touchend", startAutoplay);
 
   startAutoplay();
 })();

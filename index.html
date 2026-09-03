@@ -39,7 +39,6 @@
   <div class="utility-bar">
     <div class="page-width utility-inner">
       <span><svg class="icon"><use href="#i-map-pin"/></svg> Hobart-based · Serving Tasmania</span>
-      <span class="utility-rating"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg> Google reviews will appear here</span>
       <a href="tel:+61455613236"><svg class="icon"><use href="#i-phone"/></svg> 0455 613 236</a>
     </div>
   </div>
@@ -88,9 +87,9 @@
   <section class="stats-section" aria-label="Company statistics preview">
     <div class="page-width stats-shell">
       <div class="stats-grid">
-        <div class="stat"><strong data-count="650" data-suffix="+">0+</strong><span>Moves completed</span></div>
-        <div class="stat"><strong data-count="98" data-suffix="%">0%</strong><span>Happy customers</span></div>
-        <div class="stat"><strong data-count="4.9" data-decimals="1" data-suffix="/5">0.0/5</strong><span>Google rating</span></div>
+        <div class="stat"><strong data-count="200" data-suffix="+">0+</strong><span>Moves completed</span></div>
+        <div class="stat"><strong data-count="100" data-suffix="%">0%</strong><span>Happy customers</span></div>
+        <div class="stat"><strong data-count="5" data-suffix="/5">0/5</strong><span>Google rating</span></div>
       </div>
     </div>
     <p class="page-width demo-disclaimer">Illustrative figures — replace with verified business data before publishing.</p>
@@ -146,24 +145,27 @@
         <div class="review-carousel-head">
           <div class="google-review-brand">
             <span class="google-logo" aria-hidden="true">G</span>
-            <div><strong>Google Reviews</strong><span><b>4.9</b> <i>★★★★★</i> · Verified customers</span></div>
+            <div><strong>Google Reviews</strong><span><b>5.0</b> <i>★★★★★</i> · Verified customers</span></div>
           </div>
           <div class="carousel-controls">
             <button type="button" id="reviewPrev" aria-label="Previous review"><svg class="icon"><use href="#i-chevron-left"/></svg></button>
             <button type="button" id="reviewNext" aria-label="Next review"><svg class="icon"><use href="#i-chevron-right"/></svg></button>
           </div>
         </div>
-        <div class="review-viewport">
+        <div class="review-viewport" id="reviewViewport">
           <div class="review-track" id="reviewTrack">
-            <article class="review-slide">
+            <article class="review-card active">
+              <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
               <blockquote>&ldquo;The team made moving day feel easy. Friendly, careful and right on time.&rdquo;</blockquote>
               <div class="review-author"><span>S</span><div><strong>Sarah M.</strong><small>Hobart · Sample review</small></div></div>
             </article>
-            <article class="review-slide">
+            <article class="review-card">
+              <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
               <blockquote>&ldquo;Clear communication from the quote through to delivery. Everything arrived safely.&rdquo;</blockquote>
               <div class="review-author"><span>J</span><div><strong>James R.</strong><small>Kingston · Sample review</small></div></div>
             </article>
-            <article class="review-slide">
+            <article class="review-card">
+              <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
               <blockquote>&ldquo;Fast, professional and genuinely helpful. I would happily use them again.&rdquo;</blockquote>
               <div class="review-author"><span>E</span><div><strong>Emily T.</strong><small>Glenorchy · Sample review</small></div></div>
             </article>
