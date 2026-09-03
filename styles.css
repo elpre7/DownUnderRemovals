@@ -117,40 +117,42 @@ img { display: block; max-width: 100%; }
 
 /* Full-bleed: the carousel is its own section (not nested in the quote
    form's 920px conversion-stack), and this stretches it edge-to-edge across
-   the viewport so the peeking side cards get real room to show. */
-.review-carousel { width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); padding: 26px 0 20px; overflow: hidden; background: var(--navy); color: white; box-shadow: 0 20px 50px rgba(5,21,42,.16); }
-.review-carousel-head { max-width: 920px; margin: 0 auto; padding: 0 31px 19px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-bottom: 1px solid rgba(255,255,255,.14); }
-.google-review-brand { display: flex; align-items: center; gap: 13px; }
-.google-logo { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 50%; background: white; color: #4285f4; font-size: 22px; font-weight: 900; }
-.google-review-brand strong, .google-review-brand span { display: block; }
-.google-review-brand strong { font-size: 14px; }
-.google-review-brand span { margin-top: 2px; color: #aebfd0; font-size: 11px; }
-.google-review-brand b { color: white; }
-.google-review-brand i { color: #f2b900; font-style: normal; letter-spacing: .07em; }
-.carousel-controls { display: flex; gap: 7px; }
-.carousel-controls button { width: 39px; height: 39px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.28); background: transparent; color: white; cursor: pointer; transition: background .2s ease, color .2s ease; }
-.carousel-controls button:hover { background: var(--yellow); color: var(--navy); }
+   the viewport. A fixed intro panel sits on the left (rating summary + nav
+   buttons); the reviews scroll past it on the right, all cards equally
+   prominent — no single "spotlight" card, closer to how a real review widget
+   reads. The track's position is a CSS transform driven entirely by
+   script.js (a single index, no native scrolling), so this is just layout
+   and animation. */
+.review-carousel { width: 100vw; margin-top: 0; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); padding: 56px 0; overflow: hidden; background: var(--navy); color: white; box-shadow: 0 20px 50px rgba(5,21,42,.16); }
+.review-carousel-inner { max-width: 1180px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 56px; }
 
-/* Reviews are their own cards, with neighbours peeking at both edges. The
-   track's position is a CSS transform driven entirely by script.js (one
-   activeIndex, no native scrolling), so this is just layout + animation. */
-.review-viewport { overflow: hidden; }
-.review-track { position: relative; display: flex; gap: 18px; padding: 22px 0 18px; transition: transform .5s cubic-bezier(.22,.75,.18,1); }
-.review-card { flex: 0 0 min(600px, 82%); background: var(--navy-2); border: 1px solid rgba(255,255,255,.09); box-shadow: 0 16px 34px rgba(0,0,0,.22); padding: 26px 28px 24px; opacity: .4; transform: scale(.93); transition: opacity .35s ease, transform .35s ease; }
-.review-card.active { opacity: 1; transform: scale(1); }
-.review-card-stars { display: flex; gap: 3px; color: #f2b900; margin-bottom: 15px; }
+.review-intro { flex: 0 0 260px; }
+.review-intro .google-logo { margin-bottom: 18px; }
+.review-intro h3 { margin: 0 0 14px; font-family: "Arial Black", Arial, sans-serif; font-size: 26px; line-height: 1.1; letter-spacing: -.03em; }
+.review-rating-row { display: flex; align-items: baseline; gap: 10px; }
+.rating-number { font-family: "Arial Black", Arial, sans-serif; font-size: 30px; color: var(--yellow); }
+.rating-stars { color: #f2b900; letter-spacing: 3px; font-size: 15px; }
+.rating-count { margin: 8px 0 26px; color: #9fb0c2; font-size: 13px; }
+.review-intro .carousel-controls { display: flex; gap: 10px; }
+.review-intro .carousel-controls button { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.28); background: transparent; color: white; cursor: pointer; transition: background .2s ease, color .2s ease; }
+.review-intro .carousel-controls button:hover { background: var(--yellow); color: var(--navy); }
+
+.google-logo { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: white; color: #4285f4; font-size: 20px; font-weight: 900; flex: 0 0 auto; }
+
+.review-viewport { flex: 1 1 auto; min-width: 0; overflow: hidden; }
+.review-track { position: relative; display: flex; gap: 20px; transition: transform .5s cubic-bezier(.22,.75,.18,1); }
+.review-track.no-transition { transition: none; }
+.review-card { flex: 0 0 340px; background: var(--navy-2); border-radius: 16px; border: 1px solid rgba(255,255,255,.09); box-shadow: 0 16px 34px rgba(0,0,0,.22); padding: 24px; }
+.review-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.review-card-head .google-logo { width: 22px; height: 22px; font-size: 11px; }
+.review-card-stars { display: flex; gap: 3px; color: #f2b900; margin-bottom: 14px; }
 .review-card-stars .icon { width: 15px; height: 15px; }
-.review-card blockquote { min-height: 68px; margin: 0 0 22px; color: white; font-size: 20px; font-weight: 700; line-height: 1.45; letter-spacing: -.02em; }
+.review-card blockquote { margin: 0; color: white; font-size: 15px; font-weight: 500; line-height: 1.65; }
 .review-author { display: flex; align-items: center; gap: 11px; }
-.review-author > span { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: var(--yellow); color: var(--navy); font-weight: 900; }
+.review-author > span { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; background: var(--yellow); color: var(--navy); font-weight: 900; flex: 0 0 auto; }
 .review-author strong, .review-author small { display: block; }
 .review-author strong { font-size: 13px; }
 .review-author small { margin-top: 2px; color: #92a5b8; font-size: 10px; }
-.carousel-footer { max-width: 920px; margin: 0 auto; padding: 0 31px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.carousel-footer > span { color: #71869b; font-size: 9px; }
-.carousel-dots { display: flex; gap: 7px; }
-.carousel-dots button { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: #50647a; cursor: pointer; transition: width .2s ease, border-radius .2s ease, background .2s ease; }
-.carousel-dots button.active { width: 23px; border-radius: 10px; background: var(--yellow); }
 
 .section { padding: 118px 0; }
 .section-heading h2, .location-copy h2, .faq-heading h2 { font-size: clamp(43px, 5vw, 68px); color: var(--navy); }
@@ -277,6 +279,9 @@ img { display: block; max-width: 100%; }
   .stats-grid { min-height: 125px; }
   .quote-section { padding-top: 22px; }
   .quote-card, .quote-success { width: 100%; min-height: 0; }
+  .review-carousel { padding: 44px 0; }
+  .review-carousel-inner { flex-direction: column; align-items: flex-start; gap: 28px; padding: 0 24px; }
+  .review-intro { flex: 0 0 auto; width: 100%; }
   .section { padding: 90px 0; }
   .split-heading { grid-template-columns: 1fr; gap: 25px; }
   .services-grid { grid-template-columns: 1fr; }
@@ -339,20 +344,13 @@ img { display: block; max-width: 100%; }
   .stat strong { font-size: clamp(36px, 10.5vw, 46px); white-space: nowrap; }
   .stat span { max-width: none; margin-top: 10px; color: #dbe6f0; font-size: 8px; line-height: 1.4; text-align: center; letter-spacing: .08em; }
   .demo-disclaimer { margin-top: 8px; text-align: center; }
-  .review-carousel { margin-top: 0; padding: 22px 0 17px; }
-  .review-carousel-head { align-items: flex-start; padding: 0 20px 17px; }
-  .google-logo { width: 37px; height: 37px; font-size: 19px; }
-  .google-review-brand { gap: 10px; }
-  .google-review-brand strong { font-size: 13px; }
-  .google-review-brand span { font-size: 9px; }
-  .carousel-controls { gap: 5px; }
-  .carousel-controls button { width: 34px; height: 34px; }
-  .review-track { padding: 18px 0 16px; gap: 12px; }
-  .review-card { flex-basis: min(420px, 88%); padding: 22px 20px 18px; }
-  .review-card blockquote { min-height: 105px; font-size: 19px; }
-  .carousel-footer { padding: 0 20px; }
-  .carousel-footer { align-items: flex-start; flex-direction: column; gap: 11px; }
-  .carousel-footer > span { font-size: 8px; }
+  .review-carousel { padding: 36px 0; }
+  .review-carousel-inner { padding: 0 20px; gap: 22px; }
+  .review-intro h3 { font-size: 22px; }
+  .review-intro .carousel-controls button { width: 38px; height: 38px; }
+  .review-track { gap: 12px; }
+  .review-card { flex-basis: min(300px, 84%); padding: 20px; }
+  .review-card blockquote { font-size: 14px; }
   .section { padding: 76px 0; }
   .section-heading h2, .location-copy h2, .faq-heading h2 { font-size: 42px; }
   .split-heading > p { font-size: 16px; }

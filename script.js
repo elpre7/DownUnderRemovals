@@ -84,41 +84,72 @@
   document.getElementById("sendAnother").addEventListener("click", resetForm);
 
   // --- Google review carousel ---
-  // One index drives everything: the active card, the dots, and the track's
-  // position — set directly as a CSS transform computed from each card's
-  // static offsetLeft/offsetWidth. No native scrolling and no "which card is
-  // closest" geometry guessing: those could disagree with each other (stuck
-  // re-requesting the same card, the page jumping to drag an off-screen
-  // carousel into view, a card lighting up without the track visibly
-  // moving). A transform driven by one variable can't desync from itself.
+  // True infinite loop: a hidden clone of the last card sits before the
+  // first, and a clone of the first sits after the last. "Next" past the
+  // real last card animates onto the first-clone — visually identical to
+  // the real first card — then, the instant that animation finishes, jumps
+  // (with the transition briefly disabled, so it's imperceptible) back to
+  // the real first card in the same on-screen position. Same trick in
+  // reverse for "prev" past the first card. That's what makes it wrap
+  // like an actual carousel instead of snapping back to the start.
   const viewport = document.getElementById("reviewViewport");
   const track = document.getElementById("reviewTrack");
-  const cards = Array.from(document.querySelectorAll(".review-card"));
-  const dots = document.querySelectorAll("#reviewDots button");
+  const realCards = Array.from(document.querySelectorAll(".review-card"));
   const carousel = document.getElementById("reviews");
-  // Start on the 2nd card rather than the 1st: the 1st has no card before it
-  // to peek, so centering it leaves an empty gap on the left instead of a
-  // symmetric peek on both sides.
-  let activeIndex = 1;
+  const count = realCards.length;
+
+  const firstClone = realCards[0].cloneNode(true);
+  const lastClone = realCards[count - 1].cloneNode(true);
+  firstClone.setAttribute("aria-hidden", "true");
+  lastClone.setAttribute("aria-hidden", "true");
+  track.appendChild(firstClone);
+  track.insertBefore(lastClone, realCards[0]);
+
+  // slides[0] = clone of the last real card, slides[1..count] = the real
+  // cards in order, slides[count+1] = clone of the first real card.
+  const slides = Array.from(track.children);
+  let position = 1; // index into `slides`; starts on the 1st real card
   let autoplayTimer = null;
+  let animating = false;
 
-  function render() {
-    const card = cards[activeIndex];
-    const offset = card.offsetLeft + card.offsetWidth / 2 - viewport.clientWidth / 2;
+  function moveTrack(animate) {
+    // Align the active card flush with the viewport's left edge (not
+    // centred) — with several equal cards visible at once, centring would
+    // show real cards peeking on the left too, not just the fixed intro
+    // panel, which reads as misaligned rather than as a carousel "row".
+    const offset = slides[position].offsetLeft;
+    if (!animate) track.classList.add("no-transition");
     track.style.transform = `translateX(${-offset}px)`;
-    cards.forEach((c, i) => c.classList.toggle("active", i === activeIndex));
-    dots.forEach((d, i) => d.classList.toggle("active", i === activeIndex));
+    if (!animate) {
+      track.getBoundingClientRect(); // flush the jump before re-enabling transitions
+      track.classList.remove("no-transition");
+    }
   }
 
-  function goTo(index) {
-    activeIndex = (index + cards.length) % cards.length;
-    render();
+  function goTo(nextPosition) {
+    if (animating) return;
+    position = nextPosition;
+    animating = true;
+    moveTrack(true);
   }
 
-  document.getElementById("reviewPrev").addEventListener("click", () => goTo(activeIndex - 1));
-  document.getElementById("reviewNext").addEventListener("click", () => goTo(activeIndex + 1));
-  dots.forEach((dot, index) => dot.addEventListener("click", () => goTo(index)));
-  window.addEventListener("resize", render);
+  // When a slide-to-clone animation finishes, silently re-anchor to the
+  // matching real card so the next move has real neighbours to slide to.
+  track.addEventListener("transitionend", (event) => {
+    if (event.target !== track || event.propertyName !== "transform") return;
+    animating = false;
+    if (position === slides.length - 1) {
+      position = 1;
+      moveTrack(false);
+    } else if (position === 0) {
+      position = count;
+      moveTrack(false);
+    }
+  });
+
+  document.getElementById("reviewPrev").addEventListener("click", () => goTo(position - 1));
+  document.getElementById("reviewNext").addEventListener("click", () => goTo(position + 1));
+  window.addEventListener("resize", () => moveTrack(false));
 
   let touchStartX = 0;
   let touchDeltaX = 0;
@@ -131,13 +162,13 @@
     touchDeltaX = event.touches[0].clientX - touchStartX;
   }, { passive: true });
   viewport.addEventListener("touchend", () => {
-    if (Math.abs(touchDeltaX) > 40) goTo(activeIndex + (touchDeltaX < 0 ? 1 : -1));
+    if (Math.abs(touchDeltaX) > 40) goTo(position + (touchDeltaX < 0 ? 1 : -1));
     resumeAutoplayIfVisible();
   });
 
   function startAutoplay() {
     stopAutoplay();
-    autoplayTimer = window.setInterval(() => goTo(activeIndex + 1), 4200);
+    autoplayTimer = window.setInterval(() => goTo(position + 1), 4200);
   }
   function stopAutoplay() {
     if (autoplayTimer) window.clearInterval(autoplayTimer);
@@ -164,5 +195,5 @@
     });
   }, { threshold: 0.35 }).observe(carousel);
 
-  render();
+  moveTrack(false);
 })();

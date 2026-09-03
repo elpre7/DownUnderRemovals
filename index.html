@@ -7,7 +7,7 @@
 <meta name="description" content="Careful house removals and reliable deliveries across Tasmania. Get a free, no-obligation quote.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://images.unsplash.com">
-<link rel="stylesheet" href="styles.css?v=11">
+<link rel="stylesheet" href="styles.css?v=13">
 </head>
 <body>
 
@@ -145,61 +145,52 @@
   </section>
 
   <section class="reviews-section-wrap">
-      <aside class="review-carousel" id="reviews" aria-label="Google reviews preview">
-        <div class="review-carousel-head">
-          <div class="google-review-brand">
+      <aside class="review-carousel" id="reviews" aria-label="Google reviews">
+        <div class="review-carousel-inner">
+          <div class="review-intro">
             <span class="google-logo" aria-hidden="true">G</span>
-            <div><strong>Google Reviews</strong><span><b>5.0</b> <i>★★★★★</i> · Verified customers</span></div>
+            <h3>What our customers say</h3>
+            <div class="review-rating-row"><span class="rating-number">5.0</span><span class="rating-stars">★★★★★</span></div>
+            <p class="rating-count">Based on 6 Google reviews</p>
+            <div class="carousel-controls">
+              <button type="button" id="reviewPrev" aria-label="Previous review"><svg class="icon"><use href="#i-chevron-left"/></svg></button>
+              <button type="button" id="reviewNext" aria-label="Next review"><svg class="icon"><use href="#i-chevron-right"/></svg></button>
+            </div>
           </div>
-          <div class="carousel-controls">
-            <button type="button" id="reviewPrev" aria-label="Previous review"><svg class="icon"><use href="#i-chevron-left"/></svg></button>
-            <button type="button" id="reviewNext" aria-label="Next review"><svg class="icon"><use href="#i-chevron-right"/></svg></button>
+          <div class="review-viewport" id="reviewViewport">
+            <div class="review-track" id="reviewTrack">
+              <article class="review-card">
+                <div class="review-card-head"><div class="review-author"><span>E</span><div><strong>ElPresiETE</strong><small>Google review</small></div></div><span class="google-logo" aria-hidden="true">G</span></div>
+                <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
+                <blockquote>&ldquo;Impeccable moving service. Punctual, efficient, and careful with everything. Marta and Bruno made the process quick and stress-free. Great price and excellent service. 100% recommended.&rdquo;</blockquote>
+              </article>
+              <article class="review-card">
+                <div class="review-card-head"><div class="review-author"><span>M</span><div><strong>María Frade</strong><small>1 year ago</small></div></div><span class="google-logo" aria-hidden="true">G</span></div>
+                <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
+                <blockquote>&ldquo;Incredible service from start to finish! Marta and Bruno were professional, efficient, and handled everything with great care. They arrived on time and made the whole moving process stress-free. Highly recommend for anyone looking for reliable removals!&rdquo;</blockquote>
+              </article>
+              <article class="review-card">
+                <div class="review-card-head"><div class="review-author"><span>I</span><div><strong>Iloi Nunes</strong><small>1 year ago</small></div></div><span class="google-logo" aria-hidden="true">G</span></div>
+                <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
+                <blockquote>&ldquo;Pontualidade e eficiência, eu super recomendo.&rdquo;</blockquote>
+              </article>
+              <article class="review-card">
+                <div class="review-card-head"><div class="review-author"><span>G</span><div><strong>Gabriela Nunes</strong><small>1 year ago</small></div></div><span class="google-logo" aria-hidden="true">G</span></div>
+                <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
+                <blockquote>&ldquo;Ótimos profissionais, recomendo!&rdquo;</blockquote>
+              </article>
+              <article class="review-card">
+                <div class="review-card-head"><div class="review-author"><span>T</span><div><strong>The Extra Milestone</strong><small>1 year ago</small></div></div><span class="google-logo" aria-hidden="true">G</span></div>
+                <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
+                <blockquote>&ldquo;We had to move some chairs and desks, as we were relocating to a larger office, and Bruno and Marta took care of the transport. We're truly grateful for their work!&rdquo;</blockquote>
+              </article>
+              <article class="review-card">
+                <div class="review-card-head"><div class="review-author"><span>B</span><div><strong>Bronwyn Tilbury</strong><small>3 months ago</small></div></div><span class="google-logo" aria-hidden="true">G</span></div>
+                <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
+                <blockquote>&ldquo;Excellent friendly and efficient service and great price! Highly recommend!&rdquo;</blockquote>
+              </article>
+            </div>
           </div>
-        </div>
-        <div class="review-viewport" id="reviewViewport">
-          <div class="review-track" id="reviewTrack">
-            <article class="review-card">
-              <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
-              <blockquote>&ldquo;Impeccable moving service. Punctual, efficient, and careful with everything. Marta and Bruno made the process quick and stress-free. Great price and excellent service. 100% recommended.&rdquo;</blockquote>
-              <div class="review-author"><span>E</span><div><strong>ElPresiETE</strong><small>Google review</small></div></div>
-            </article>
-            <article class="review-card active">
-              <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
-              <blockquote>&ldquo;Incredible service from start to finish! Marta and Bruno were professional, efficient, and handled everything with great care. They arrived on time and made the whole moving process stress-free. Highly recommend for anyone looking for reliable removals!&rdquo;</blockquote>
-              <div class="review-author"><span>M</span><div><strong>María Frade</strong><small>Google review · 1 year ago</small></div></div>
-            </article>
-            <article class="review-card">
-              <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
-              <blockquote>&ldquo;Pontualidade e eficiência, eu super recomendo.&rdquo;</blockquote>
-              <div class="review-author"><span>I</span><div><strong>Iloi Nunes</strong><small>Google review · 1 year ago</small></div></div>
-            </article>
-            <article class="review-card">
-              <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
-              <blockquote>&ldquo;Ótimos profissionais, recomendo!&rdquo;</blockquote>
-              <div class="review-author"><span>G</span><div><strong>Gabriela Nunes</strong><small>Google review · 1 year ago</small></div></div>
-            </article>
-            <article class="review-card">
-              <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
-              <blockquote>&ldquo;We had to move some chairs and desks, as we were relocating to a larger office, and Bruno and Marta took care of the transport. We're truly grateful for their work!&rdquo;</blockquote>
-              <div class="review-author"><span>T</span><div><strong>The Extra Milestone</strong><small>Google review · 1 year ago</small></div></div>
-            </article>
-            <article class="review-card">
-              <div class="review-card-stars"><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg><svg class="icon" fill="currentColor"><use href="#i-star"/></svg></div>
-              <blockquote>&ldquo;Excellent friendly and efficient service and great price! Highly recommend!&rdquo;</blockquote>
-              <div class="review-author"><span>B</span><div><strong>Bronwyn Tilbury</strong><small>Google review · 3 months ago</small></div></div>
-            </article>
-          </div>
-        </div>
-        <div class="carousel-footer">
-          <div class="carousel-dots" id="reviewDots" aria-label="Select review">
-            <button type="button" aria-label="Show review 1"></button>
-            <button type="button" class="active" aria-label="Show review 2"></button>
-            <button type="button" aria-label="Show review 3"></button>
-            <button type="button" aria-label="Show review 4"></button>
-            <button type="button" aria-label="Show review 5"></button>
-            <button type="button" aria-label="Show review 6"></button>
-          </div>
-          <span>Real customer reviews from Google</span>
         </div>
       </aside>
   </section>
@@ -345,6 +336,6 @@
   </div>
 </main>
 
-<script src="script.js?v=11"></script>
+<script src="script.js?v=13"></script>
 </body>
 </html>
