@@ -233,10 +233,11 @@ img { display: block; max-width: 100%; }
 .split-heading { display: grid; grid-template-columns: 1.25fr .75fr; gap: 100px; align-items: end; }
 .split-heading > p { max-width: 430px; margin: 0 0 5px; color: var(--slate); font-size: 18px; line-height: 1.65; }
 .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 58px; }
-.service-card { position: relative; min-height: 340px; padding: 31px 30px; border: 1px solid var(--line); background: white; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+.service-card { display: block; position: relative; min-height: 340px; padding: 31px 30px; border: 1px solid var(--line); background: white; cursor: pointer; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
 .service-card::after { content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 5px; background: var(--yellow); transition: right .25s ease; }
-.service-card:hover { transform: translateY(-7px); border-color: transparent; box-shadow: 0 20px 50px rgba(7,24,45,.11); }
-.service-card:hover::after { right: 0; }
+.service-card:hover, .service-card:focus-visible { transform: translateY(-7px); border-color: transparent; box-shadow: 0 20px 50px rgba(7,24,45,.11); }
+.service-card:hover::after, .service-card:focus-visible::after { right: 0; }
+.service-card:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
 .service-top { display: flex; align-items: flex-start; justify-content: space-between; }
 .service-icon { width: 56px; height: 56px; display: grid; place-items: center; background: var(--navy); color: var(--yellow); }
 .service-number { color: #c3ccd5; font-family: "Arial Black", Arial, sans-serif; font-size: 18px; }

@@ -83,5 +83,14 @@ quoteForm.addEventListener("submit", (event) => {
 
 document.getElementById("sendAnother").addEventListener("click", resetForm);
 
+// --- Service cards: jump to the quote form, pre-selecting its move size ---
+const sizeSelect = step1.querySelector("select[name='size']");
+document.querySelectorAll(".service-card[data-prefill-size]").forEach((card) => {
+  card.addEventListener("click", () => {
+    const size = card.dataset.prefillSize;
+    if (size) sizeSelect.value = size;
+  });
+});
+
 // --- Google review carousel ---
 mountReviewCarousel(document.getElementById("reviews"), reviews);
