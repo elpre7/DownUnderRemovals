@@ -73,8 +73,10 @@ img { display: block; max-width: 100%; }
 .hero-trust { margin-top: 28px; display: flex; gap: 21px; flex-wrap: wrap; color: #d8e3ee; font-size: 13px; font-weight: 700; }
 .hero-trust span { display: inline-flex; align-items: center; gap: 7px; }
 .hero-trust .icon { width: 18px; height: 18px; padding: 3px; border-radius: 50%; background: rgba(244,214,0,.17); color: var(--yellow); }
-.hero-note { position: absolute; z-index: 3; right: 0; bottom: 84px; display: flex; align-items: center; gap: 13px; padding: 15px 18px; background: rgba(255,255,255,.95); color: var(--navy); box-shadow: 0 12px 32px rgba(0,0,0,.15); }
-.hero-note-icon { width: 42px; height: 42px; display: grid; place-items: center; background: var(--yellow); }
+.hero-note { position: absolute; z-index: 3; right: 0; bottom: 84px; display: flex; align-items: center; gap: 13px; padding: 15px 18px; background: rgba(255,255,255,.95); color: var(--navy); box-shadow: 0 12px 32px rgba(0,0,0,.15); cursor: pointer; transition: transform .2s ease, box-shadow .2s ease; }
+.hero-note:hover, .hero-note:focus-visible { transform: translateY(-2px); box-shadow: 0 16px 38px rgba(0,0,0,.22); }
+.hero-note:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+.hero-note-icon { width: 42px; height: 42px; display: grid; place-items: center; background: var(--yellow); flex: 0 0 auto; }
 .hero-note small, .hero-note strong { display: block; }
 .hero-note small { color: #68778b; font-size: 11px; }
 .hero-note strong { margin-top: 2px; font-size: 13px; }
