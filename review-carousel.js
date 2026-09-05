@@ -5,7 +5,7 @@
 // an interchangeable fixed-ratio poster, so this is not a generic slider
 // with text dropped in.
 
-const PEEK_PX = 28;
+const PEEK_PX = 60;
 
 function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
