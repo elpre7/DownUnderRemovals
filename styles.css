@@ -262,19 +262,24 @@ img { display: block; max-width: 100%; }
 .benefit-list strong { display: block; font-size: 16px; }
 .benefit-list p { margin: 3px 0 0; color: #9fb0c2; font-size: 13px; }
 
-.process-section { padding: 112px 0; background: var(--navy); color: white; border-top: 1px solid rgba(255,255,255,.08); }
+/* Light background on purpose: this sits directly under .care-section,
+   which is navy — two full-width navy bands back to back read as one flat
+   block. The diamond icons stay navy-with-yellow (same treatment the
+   service cards use on white), so the section still feels part of the
+   same visual language. */
+.process-section { padding: 112px 0; background: var(--cloud); color: var(--ink); border-bottom: 1px solid var(--line); }
 .centered-heading { text-align: center; }
 .centered-heading .eyebrow { justify-content: center; }
-.centered-heading h2 { color: white; font-size: clamp(42px, 5vw, 64px); }
-.centered-heading > p:last-child { margin: 18px 0 0; color: #9fb0c2; }
+.centered-heading h2 { font-size: clamp(42px, 5vw, 64px); }
+.centered-heading > p:last-child { margin: 18px 0 0; color: var(--slate); }
 .process-grid { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 68px; }
-.process-grid::before { content: ""; position: absolute; top: 55px; left: 17%; right: 17%; border-top: 1px dashed #52667c; }
+.process-grid::before { content: ""; position: absolute; top: 55px; left: 17%; right: 17%; border-top: 1px dashed var(--line); }
 .process-grid article { position: relative; z-index: 1; padding: 0 48px; text-align: center; }
-.process-grid article > span { position: absolute; top: -18px; right: 62px; color: #486079; font-family: "Arial Black", Arial, sans-serif; font-size: 50px; }
-.process-icon { width: 108px; height: 108px; display: grid; place-items: center; margin: 0 auto 26px; background: #0e2b4d; border: 1px solid #38526e; color: var(--yellow); transform: rotate(45deg); }
+.process-grid article > span { position: absolute; top: -18px; right: 62px; color: #c3ccd5; font-family: "Arial Black", Arial, sans-serif; font-size: 50px; }
+.process-icon { width: 108px; height: 108px; display: grid; place-items: center; margin: 0 auto 26px; background: var(--navy); border: 1px solid var(--navy); color: var(--yellow); transform: rotate(45deg); }
 .process-icon .icon { width: 34px; height: 34px; transform: rotate(-45deg); }
-.process-grid h3 { margin: 0 0 11px; font-size: 20px; }
-.process-grid p { max-width: 265px; margin: 0 auto; color: #9fb0c2; font-size: 14px; line-height: 1.65; }
+.process-grid h3 { margin: 0 0 11px; color: var(--navy); font-size: 20px; }
+.process-grid p { max-width: 265px; margin: 0 auto; color: var(--slate); font-size: 14px; line-height: 1.65; }
 
 .location-section { display: grid; grid-template-columns: 1.18fr .82fr; min-height: 650px; }
 .map-wrap { position: relative; min-height: 620px; background: #dce4ea; overflow: hidden; }
@@ -448,8 +453,7 @@ img { display: block; max-width: 100%; }
   .process-section { padding: 80px 0; }
   .centered-heading h2 { font-size: 42px; }
   .process-grid { grid-template-columns: 1fr; gap: 68px; }
-  .process-grid::before { top: 20px; bottom: 20px; left: 50%; right: auto; height: auto; border-top: 0; border-left: 1px dashed #52667c; }
-  .process-grid article { background: var(--navy); }
+  .process-grid::before { top: 20px; bottom: 20px; left: 50%; right: auto; height: auto; border-top: 0; border-left: 1px dashed var(--line); }
   .process-grid article > span { right: 20%; }
   .map-wrap, .map-wrap iframe { min-height: 400px; }
   .map-label { left: 16px; bottom: 16px; }
