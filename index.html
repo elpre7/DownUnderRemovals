@@ -7,7 +7,7 @@
 <meta name="description" content="Careful house removals and reliable deliveries across Tasmania. Get a free, no-obligation quote.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://images.unsplash.com">
-<link rel="stylesheet" href="styles.css?v=23">
+<link rel="stylesheet" href="styles.css?v=24">
 </head>
 <body>
 
@@ -101,6 +101,12 @@
     <div class="page-width conversion-stack">
 
       <form class="quote-card" id="quoteForm" novalidate>
+        <!-- Delivered by FormSubmit.co (no backend on this static site) —
+             see README for how this is wired and how to switch providers. -->
+        <input type="hidden" name="_subject" value="New quote request — DownUnder Removals">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
         <div class="quote-card-head">
           <div><span class="mini-label">Free & no obligation</span><h2>Tell us about your move</h2></div>
           <div class="step-count" id="stepCount" aria-label="Step 1 of 2">
@@ -133,6 +139,7 @@
         </div>
 
         <p class="privacy-note"><svg class="icon"><use href="#i-shield-check"/></svg> Your details stay private. No spam, ever.</p>
+        <p class="form-error" id="quoteError" role="alert" hidden>Something went wrong sending your request — please call <a href="tel:+61455613236">0455 613 236</a> or email <a href="mailto:info@downunderremovals.com">info@downunderremovals.com</a> directly.</p>
       </form>
 
       <div class="quote-success" id="quoteSuccess" role="status" hidden>
@@ -306,6 +313,6 @@
   </div>
 </main>
 
-<script type="module" src="script.js?v=19"></script>
+<script type="module" src="script.js?v=20"></script>
 </body>
 </html>

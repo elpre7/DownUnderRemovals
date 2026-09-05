@@ -73,12 +73,30 @@ function resetForm() {
   goToStep(1);
   quoteForm.hidden = false;
   quoteSuccess.hidden = true;
+  quoteError.hidden = true;
 }
 
-quoteForm.addEventListener("submit", (event) => {
+const quoteError = document.getElementById("quoteError");
+const submitButton = quoteForm.querySelector("button[type=submit]");
+
+quoteForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  quoteForm.hidden = true;
-  quoteSuccess.hidden = false;
+  quoteError.hidden = true;
+  submitButton.disabled = true;
+  try {
+    const response = await fetch("https://formsubmit.co/ajax/info@downunderremovals.com", {
+      method: "POST",
+      headers: { Accept: "application/json" },
+      body: new FormData(quoteForm),
+    });
+    if (!response.ok) throw new Error(`FormSubmit responded ${response.status}`);
+    quoteForm.hidden = true;
+    quoteSuccess.hidden = false;
+  } catch (err) {
+    quoteError.hidden = false;
+  } finally {
+    submitButton.disabled = false;
+  }
 });
 
 document.getElementById("sendAnother").addEventListener("click", resetForm);
