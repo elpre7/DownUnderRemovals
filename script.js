@@ -53,6 +53,27 @@ const step1 = document.getElementById("step1");
 const step2 = document.getElementById("step2");
 const stepDots = document.querySelectorAll("#stepCount [data-step-dot]");
 
+// No same-day bookings via the form — earliest selectable date is tomorrow.
+const dateInput = document.getElementById("dateInput");
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+dateInput.min = tomorrow.toISOString().slice(0, 10);
+
+// Checked via JS, not the `pattern` attribute: Chromium doesn't apply a
+// pattern containing a lookahead (confirmed — a plain quantified pattern
+// works fine, this specific pattern always reports valid regardless of
+// content), so counting digits by hand is the reliable option here.
+const phoneInput = document.getElementById("phoneInput");
+function validatePhone() {
+  if (phoneInput.value.trim() === "") {
+    phoneInput.setCustomValidity(""); // let `required` own the empty case
+    return;
+  }
+  const digitCount = phoneInput.value.replace(/\D/g, "").length;
+  phoneInput.setCustomValidity(digitCount >= 8 ? "" : "Enter a valid phone number (at least 8 digits).");
+}
+phoneInput.addEventListener("input", validatePhone);
+
 function goToStep(step) {
   step1.hidden = step !== 1;
   step2.hidden = step !== 2;
@@ -81,6 +102,13 @@ const submitButton = quoteForm.querySelector("button[type=submit]");
 
 quoteForm.addEventListener("submit", async (event) => {
   event.preventDefault();
+  // The form carries novalidate (so step 1's fields don't get checked while
+  // hidden on step 2) — so step 2's own fields need the same manual check
+  // step 1 already does before its "Continue" button advances.
+  validatePhone();
+  for (const field of step2.querySelectorAll("input, textarea")) {
+    if (!field.reportValidity()) return;
+  }
   quoteError.hidden = true;
   submitButton.disabled = true;
   try {

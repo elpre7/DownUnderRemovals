@@ -7,7 +7,7 @@
 <meta name="description" content="Careful house removals and reliable deliveries across Tasmania. Get a free, no-obligation quote.">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://images.unsplash.com">
-<link rel="stylesheet" href="styles.css?v=24">
+<link rel="stylesheet" href="styles.css?v=25">
 </head>
 <body>
 
@@ -117,7 +117,7 @@
         <div class="form-grid" id="step1">
           <label>Moving from<span class="input-shell"><svg class="icon"><use href="#i-map-pin"/></svg><input required placeholder="Suburb or postcode" name="from"></span></label>
           <label>Moving to<span class="input-shell"><svg class="icon"><use href="#i-navigation"/></svg><input required placeholder="Suburb or postcode" name="to"></span></label>
-          <label>Preferred date<span class="input-shell"><svg class="icon"><use href="#i-calendar"/></svg><input required type="date" name="date"></span></label>
+          <label>Preferred date<span class="input-shell"><svg class="icon"><use href="#i-calendar"/></svg><input required type="date" name="date" id="dateInput"></span></label>
           <label>Size of move
             <select required name="size">
               <option value="" disabled selected>Select an option</option>
@@ -129,7 +129,7 @@
 
         <div class="form-grid" id="step2" hidden>
           <label>Your name<input required placeholder="Full name" name="name"></label>
-          <label>Phone number<input required type="tel" placeholder="04XX XXX XXX" name="phone"></label>
+          <label>Phone number<input required type="tel" placeholder="04XX XXX XXX" name="phone" id="phoneInput"></label>
           <label>Email address<input required type="email" placeholder="you@example.com" name="email"></label>
           <label>Anything we should know?<textarea placeholder="Stairs, heavy items, access…" rows="3" name="notes"></textarea></label>
           <div class="form-actions">
@@ -219,21 +219,6 @@
     </div>
   </section>
 
-  <section class="process-section">
-    <div class="page-width">
-      <div class="section-heading centered-heading">
-        <p class="eyebrow">How it works</p>
-        <h2>From first message to final box.</h2>
-        <p>Simple, clear and organised from the start.</p>
-      </div>
-      <div class="process-grid">
-        <article><span>01</span><div class="process-icon"><svg class="icon"><use href="#i-box"/></svg></div><h3>Tell us about it</h3><p>Share your locations, date, access and what needs moving.</p></article>
-        <article><span>02</span><div class="process-icon"><svg class="icon"><use href="#i-calendar"/></svg></div><h3>Confirm your move</h3><p>We agree the details, availability and quote with you.</p></article>
-        <article><span>03</span><div class="process-icon"><svg class="icon"><use href="#i-truck"/></svg></div><h3>Leave the lifting to us</h3><p>We arrive, load carefully and get you where you need to go.</p></article>
-      </div>
-    </div>
-  </section>
-
   <section class="location-section" id="location">
     <div class="map-wrap">
       <iframe title="Approximate DownUnder Removals service location in Hobart" src="https://www.google.com/maps?q=Hobart,TAS,Australia&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -313,6 +298,6 @@
   </div>
 </main>
 
-<script type="module" src="script.js?v=20"></script>
+<script type="module" src="script.js?v=21"></script>
 </body>
 </html>
